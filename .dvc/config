@@ -1,5 +1,2 @@
 [core]
-    remote = storage
     autostage = true
-['remote "storage"']
-    url = gs://dvc_expirment
