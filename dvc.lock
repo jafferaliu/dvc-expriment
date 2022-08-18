@@ -1,0 +1,64 @@
+schema: '2.0'
+stages:
+  load_data:
+    cmd: python src/load_data.py --config=params.yaml
+    deps:
+    - path: data1/SAHeart.csv
+      md5: d75f04274cb6fb8dce4662ed762a5621
+      size: 22298
+    - path: src/get_data.py
+      md5: 81b4cacc95b0de0067d95ff7e9bf1da4
+      size: 694
+    - path: src/load_data.py
+      md5: 963de2c5b0cd2d1b9500bf1d4c68a374
+      size: 588
+    outs:
+    - path: data1/raw/SAHeart.csv
+      md5: 9bcb4424eea864e13d075f2f0e17cea9
+      size: 18550
+  split_data:
+    cmd: python src/split_data.py --config=params.yaml
+    deps:
+    - path: data1/raw/SAHeart.csv
+      md5: 9bcb4424eea864e13d075f2f0e17cea9
+      size: 18550
+    - path: src/split_data.py
+      md5: 28f8560bb20b8e4d5f4a4de7933af494
+      size: 1013
+    outs:
+    - path: data1/processed/test.csv
+      md5: 62daa95f23edff16c37d431eebeb141f
+      size: 5630
+    - path: data1/processed/train.csv
+      md5: 6bacae902878a6ebe858b89e7065adb7
+      size: 12991
+  train_and_evaluate:
+    cmd:
+    - python src/train_and_evaluate.py --config=params.yaml
+    - dvc plots show
+    deps:
+    - path: data1/processed/test.csv
+      md5: 62daa95f23edff16c37d431eebeb141f
+      size: 5630
+    - path: data1/processed/train.csv
+      md5: 6bacae902878a6ebe858b89e7065adb7
+      size: 12991
+    - path: src/train_and_evaluate.py
+      md5: 66713a0008843311ff76e3622e40c519
+      size: 5894
+    outs:
+    - path: cm.csv
+      md5: 7b245f8b0262486aeccdbf8eaadd13bf
+      size: 570
+    - path: report/prc.json
+      md5: bf3f9cf5cab973fb36d7fa2d8352234d
+      size: 276
+    - path: report/roc.json
+      md5: 7e7f9db2624eb1485f60a92b820740a7
+      size: 340
+    - path: report/scores.json
+      md5: 9b1a3d956fbfcfbae52110331e6177ea
+      size: 157
+    - path: saved_models/model.joblib
+      md5: f046af637c2f1b21c48fb1419330d435
+      size: 1263

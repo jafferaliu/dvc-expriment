@@ -1,0 +1,23 @@
+base:
+  project: SA Heart 
+  random_state: 999
+  target_col: chd
+
+data_source:
+  gcp_buket: data1/SAHeart.csv
+
+load_data:
+  raw_dataset_csv: data1/raw/SAHeart.csv
+
+split_data:
+  train_path: data1/processed/train.csv
+  test_path: data1/processed/test.csv
+  test_size: 0.25
+  
+model_dir: saved_models
+
+reports:
+  scores: report/scores.json 
+  roc: report/roc.json 
+  prc: report/prc.json 
+  auc: report/auc.json
